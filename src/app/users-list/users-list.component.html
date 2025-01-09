@@ -1,0 +1,43 @@
+<main>
+    <div class="row">
+        <!-- <div class="col-3"></div> -->
+        <div class="col-12">
+    <ul id="users">
+    <!--This is only with v17 not in older versions
+    For older than v17 need to use *ngFor "structural directive"-->
+        @for(user of users; track user.id )  
+        {
+            <li>
+                <app-user [user]="user" [selected]="user.id===selectedUserr?.id" (select)="onSelectUser($event)"></app-user>
+             </li>
+        }
+        <!-- <li *ngFor="let user of users">
+            <app-user [user]="user" (select)="onSelectUser($event)"></app-user>
+        </li> -->
+
+    </ul>
+</div>
+<!-- <div class="col-3"></div> -->
+</div>
+    <div>
+            <!--This is only with v17 not in older versions
+    For older than v17 need to use *ngIf-->
+        @if(selectedUserr)
+        {
+            <app-task-list [userid]="selectedUserr.id" [name]="selectedUserr.name"></app-task-list>
+        }
+        @else {
+            <section id="fallback" class="section-tasks">
+                <!-- <header>                 -->
+                    Please select user to see !!
+                <!-- </header> -->
+            </section>
+        }
+
+<!-- For older than v17 need to use *ngIf and for else  ng-template-->
+        <!-- <app-task-list *ngIf="selectedUserr; else fallbacks"  [selectedUser]="selectedUserr!.name"></app-task-list>
+        <ng-template #fallbacks>
+            <p id="fallbacks">Please select user</p>
+        </ng-template> -->
+    </div>
+   </main>

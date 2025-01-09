@@ -1,0 +1,58 @@
+<div class="container-fluid">  
+    <div class="row">
+      <form [formGroup]="userForm" (ngSubmit)="addToList()" class=" mb-3">
+  
+        <!-- <div id="wrapper">
+          <div id="article">
+            <h1>Good Luck!</h1>
+            <div>
+              <p>“Java is to JavaScript what Car is to Carpet.”</p>
+              <p>— Chris Heilmann</p>
+            </div> 
+
+          </div>
+        </div> -->
+        <div class="row mt-1" >
+          <div class="col-3"></div>
+          <div *ngIf="(userForm.get('name')?.invalid)&&(userForm.get('name')?.touched || userForm.get('name')?.dirty)"
+          class="text-danger col-12 col-md-6 ">
+            <div *ngIf="userForm.get('name')?.errors?.['required']">
+                Name is required.
+            </div>
+            <div class="text-danger col-12 col-md-6 " *ngIf="userForm.get('name')?.errors?.['minlength']">
+              Name must be at least 4 characters long.
+            </div>
+            <div class="text-danger col-12 col-md-6 " *ngIf="userForm.get('name')?.errors?.['forbiddenName']">
+              Valid Name.
+            </div>
+          </div>
+          <div class="col-3"></div>
+        </div>
+        <div class="row mt-1" style="height:80px;"> 
+          <div class="col-3 d-none col-md-3 d-md-block"></div> 
+          <div class="col-12 col-md-6 bg-success d-flex  
+                      justify-content-center align-items-center  
+                      text-light h3">  
+                      <div></div>
+                  <input id="name" formControlName="name" name="name" type="text" #name
+                          required minlength="4"  value="" class="new-todo-name form-control me-2" > 
+                  <button (click)="addToList()" type="submit" class="add-todo btn btn-light text-success"> ADD USER </button> 
+          </div> 
+          <div class="col-3 d-none col-md-3 d-md-block"></div> 
+        </div> 
+      </form>
+      <br/>
+    </div>
+    <div *ngFor="let item of users; let index = index;" class="row mt-1" >     
+      <div class="col-3 d-none col-md-3 d-md-block"></div>     
+      <div class="todo-item col-12 col-md-6 bg-success d-flex 
+      justify-content-center align-items-center" >
+          <div class="todo-name col-9 text-light h3">{{item.name}}</div>
+          <button class="delete-todo col-2 btn btn-danger" [disabled]="item.id == 'u1'||item.id ==  'u2' ||item.id ==  'u3'" (click)="deleteToDo(index)">delete</button> 
+          <br/>
+      </div>
+      <div class="col-3 d-none col-md-3 d-md-block"></div> 
+  </div> 
+  </div> 
+
+
