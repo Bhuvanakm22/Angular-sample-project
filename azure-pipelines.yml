@@ -4,19 +4,32 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 trigger:
-- main
+  branches:
+    include:
+      - Development  # Trigger on push to the main branch
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '20.x'
-  displayName: 'Install Node.js'
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '20.x'  # Ensure Node.js version 16 is used
+    displayName: 'Set up Node.js'
 
-- script: |
-    npm install -g @angular/cli
-    npm install
-    ng build --prod
-  displayName: 'npm install and build'
+  - script: npm install -g @angular/cli 
+    displayName: 'Install angular'
+
+  - script: npm install
+    displayName: 'Install dependencies'
+
+  - script: ng build --base-href "/angular-app/" --configuration production 
+    displayName: 'Build Angular app'
+
+  - task: AzureStaticWebApp@0
+    inputs:
+      app_location: "dist/angular-app/browser"  # Replace with your actual Angular project name
+      api_location: ""  # Leave empty if not using an API
+      output_location: "dist/angular-app"  # Ensure this matches the output directory
+    env:
+      azure_static_web_apps_api_token: $(deployment_token)  # Ensure this secret is added in Azure DevOps
